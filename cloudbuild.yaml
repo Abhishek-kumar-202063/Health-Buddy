@@ -1,0 +1,13 @@
+steps:
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/minor-project-407916/health-buddy', '.']
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/minor-project-407916/health-buddy']
+# Deploy container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args: ['run', 'deploy', 'health-buddy', '--image', 'gcr.io/minor-project-407916/health-buddy', '--region', 'REGION']
+images:
+- gcr.io/minor-project-407916/health-buddy
